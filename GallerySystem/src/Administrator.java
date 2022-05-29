@@ -16,6 +16,7 @@ public class Administrator extends Member implements SystemMain{
 		System.out.println("=================================");
 		System.out.println("1. 로그아웃 | 2. 전시관 관리 | 3. 가입 요청 관리");
 		System.out.println("=================================");
+		System.out.println("입력 >>");
 	}
 
 	@Override
