@@ -1,5 +1,5 @@
 
-public class Administrator extends Member implements SystemMain{
+public class Administrator extends Member{
 	Administrator(String ID,String password,String phoneNumber,String email){
 		this.ID = ID;
 		this.password = password;

@@ -17,6 +17,12 @@ public class GalleryHelper {
 		}
 		return null;
 	}
+	Gallery getGallery(int num)
+	{	
+		if(num < -1 || num>galleryList.size())
+			return null;
+		return galleryList.get(num);
+	}
 	boolean hasGalleryName(String name){
 		Gallery temp;
 		for(int i=0; i<galleryList.size(); i++){
@@ -30,7 +36,16 @@ public class GalleryHelper {
 		galleryList.add(data);
 	}
 	void deleteGalleryList(Gallery data){	//db ¼öÁ¤
-		
+		Gallery temp;
+		for(int i=0; i<galleryList.size(); i++)
+		{
+			temp = galleryList.get(i);
+			if(temp.equals(data))
+			{
+				galleryList.remove(i);
+				return;
+			}
+		}
 	}
 	void printGalleryList(){
 		Gallery temp;

@@ -1,5 +1,5 @@
 
-public class GalleryManager extends Member implements SystemMain{
+public class GalleryManager extends Member{
 	Gallery ownGallery;
 	GalleryManager(String ID,String password,String phoneNumber,String email){
 		this.ID = ID;
@@ -9,7 +9,10 @@ public class GalleryManager extends Member implements SystemMain{
 		adminator = false;
 	}
 	boolean hasGallery(){
-		
+		if(ownGallery == null)
+			return false;
+		else
+			return true;
 	}
 	void setOwnGallery(Gallery gallery){
 		this.ownGallery = gallery;
@@ -29,7 +32,27 @@ public class GalleryManager extends Member implements SystemMain{
 	}
 	@Override
 	public void mainSelect(int select) {
-		// TODO Auto-generated method stub
-		
+		switch(select)
+		{
+		case 1:
+			logout();
+			break;
+		case 2:
+			if(hasGallery()) {
+				GalleryHelper gh = new GalleryHelper();
+				
+				
+				
+				
+				
+			}
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		default:
+				
+		}
 	}
 }

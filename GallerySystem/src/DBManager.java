@@ -46,11 +46,6 @@ public class DBManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(exhibitList == null)
-		{
-			System.out.println("exhibitList error");
-			return null;
-		}
 		return exhibitList;
 	}
 	
@@ -85,25 +80,39 @@ public class DBManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (galleryList == null) {
-			System.out.println("exhibitList error");
-			return null;
-		}
 		return galleryList;
 	}
 	ArrayList<Member> getMemberInfoData(){
 		//ID;password;phonenumber;email;admin; 
 		String temp;
-		
+		String[] info = new String[5];
+		StringTokenizer st;
 		ArrayList<Member> memberList = new ArrayList<Member>();
 		try {
 			Scanner fileinput = new Scanner(memberInfo,"UTF-8");
 			fileinput.nextLine();
+			while(fileinput.hasNextLine())
+			{
+				temp = fileinput.nextLine();
+				st = new StringTokenizer(temp,";");
+				for(int i =0; i<5; i++)
+				{
+					info[i] = st.nextToken();
+				}
+				if(info[4].equals("admin"))
+				{//admin일때
+					memberList.add(new Administrator(info[0], info[1], info[2], info[3]));
+				}
+				else
+				{//GalleryManager일때
+					memberList.add(new GalleryManager(info[0], info[1], info[2], info[3]));
+				}
+			}
 			fileinput.close();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		
+		return memberList;
 		
 	}
 	void writeExhibitData(Exhibit data){

@@ -1,5 +1,5 @@
 
-public abstract class Member {
+public abstract class Member implements SystemMain {
 	String ID;
 	String password;
 	String phoneNumber;
@@ -9,6 +9,7 @@ public abstract class Member {
 		return adminator;
 	}
 	void logout(){
+		
 		
 	}
 }
