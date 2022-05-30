@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class ExhibitHelper {
-	static ArrayList<Exhibit> exhibitList;
-	ExhibitHelper(DBManager db){
-		this.exhibitList = db.getExhibitData();
+	private static ArrayList<Exhibit> exhibitList;
+	void init (DBManager db){
+		this.exhibitList.addAll(db.getExhibitData());
 	}
 	Exhibit getExhibit(String name){
 		
@@ -23,7 +23,7 @@ public class ExhibitHelper {
 	void printLocalExhibitList(String location){
 		
 	}
-	void addExhibit(){
+	public void addExhibit(){
 		
 	}
 }

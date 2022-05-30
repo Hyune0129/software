@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class GalleryHelper {
 	static ArrayList<Gallery> galleryList;
-	GalleryHelper(DBManager db){
-		this.galleryList = db.getGalleryData();	
+	void init(DBManager db){
+		this.galleryList.addAll(db.getGalleryData());
 	}
 	void addGallery(){
 		

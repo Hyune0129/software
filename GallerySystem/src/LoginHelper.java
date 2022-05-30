@@ -2,9 +2,8 @@ import java.util.ArrayList;
 
 public class LoginHelper {
 	static ArrayList<Member> memberList;
-	LoginHelper(){
-		DBManager db = new DBManager();
-		memberList = db.getMemberInfoData();
+	void init(DBManager db){
+		memberList.addAll(db.getMemberInfoData());
 	}
 	boolean loginCheck(String ID,String password){
 		Member temp;
