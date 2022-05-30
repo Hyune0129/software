@@ -51,6 +51,7 @@ public class ExhibitHelper {
 		}
 	}
 	void addExhibit(){
+		/*전시물 추가*/
 		
 	}
 }

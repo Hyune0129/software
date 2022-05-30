@@ -58,8 +58,11 @@ public class Customer extends Member implements SystemMain{
 					if (num == 0) // 돌아가기->galleryList
 						break;
 					else if(num == 1)
-					{
-						
+					{	//exhibit List
+						ExhibitHelper eh = new ExhibitHelper();
+						eh.printLocalExhibitList(gallery.getname());
+						System.out.print("원하는 입력>>");
+						num = input.nextInt();
 					}
 					else
 					{
