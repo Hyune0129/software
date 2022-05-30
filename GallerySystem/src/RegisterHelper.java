@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 
 public class RegisterHelper {
-	ArrayList<GalleryManager> requestList;
+	static ArrayList<GalleryManager> requestList;
 	void acceptRegister(GalleryManager manager){
-		
+		DBManager db = new DBManager();
+		LoginHelper lh = new LoginHelper();
+		db.
 	}
 	void requestRegister(String id, String password, String phonenumber, String email){
 		

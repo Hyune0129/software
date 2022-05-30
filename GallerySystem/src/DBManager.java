@@ -7,9 +7,9 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class DBManager {
-	File exhibit = new File("exhibitData.txt");
-	File gallery = new File("galleryData.txt");
-	File memberInfo = new File("memberData.txt");
+	static File exhibit = new File("exhibitData.txt");
+	static File gallery = new File("galleryData.txt");
+	static File memberInfo = new File("memberData.txt");
 	
 	ArrayList<Exhibit> getExhibitData(){
 		//name;location;info1|info2|info3|...;

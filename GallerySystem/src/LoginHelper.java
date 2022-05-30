@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 
 public class LoginHelper {
-	ArrayList<Member> memberList;
-	LoginHelper(DBManager db){
+	static ArrayList<Member> memberList;
+	LoginHelper(){
+		DBManager db = new DBManager();
 		memberList = db.getMemberInfoData();
-	};
+	}
 	boolean loginCheck(String ID,String password){
 		Member temp;
 		for(int i=0; i<memberList.size(); i++){

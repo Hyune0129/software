@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class GalleryHelper {
-	ArrayList<Gallery> galleryList;
+	static ArrayList<Gallery> galleryList;
 	GalleryHelper(DBManager db){
 		this.galleryList = db.getGalleryData();	
 	}

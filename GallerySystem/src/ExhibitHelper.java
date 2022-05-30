@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class ExhibitHelper {
-	ArrayList<Exhibit> exhibitList;
+	static ArrayList<Exhibit> exhibitList;
 	ExhibitHelper(DBManager db){
 		this.exhibitList = db.getExhibitData();
 	}
