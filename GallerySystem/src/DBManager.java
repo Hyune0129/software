@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public static class DBManager {
+public class DBManager {
 	static File exhibit = new File("exhibitData.txt");
 	static File gallery = new File("galleryData.txt");
 	static File memberInfo = new File("memberData.txt");
