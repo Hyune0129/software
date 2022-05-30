@@ -8,8 +8,4 @@ public abstract class Member implements SystemMain {
 	boolean isAdministrator(){
 		return adminator;
 	}
-	void logout(){
-		
-		
-	}
 }

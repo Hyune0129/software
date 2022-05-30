@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Customer extends Member implements SystemMain{
@@ -20,24 +21,64 @@ public class Customer extends Member implements SystemMain{
 	@Override
 	public void mainSelect(int select) {
 		Scanner input = new Scanner(System.in);
+		LoginHelper lh = new LoginHelper();
 		switch (select) {
 		case 1: // login
-			LoginHelper lh = new LoginHelper();
 			String ID, password;
-
-			System.out.print("ID :");
-			ID = input.next();
-			System.out.print("Password :");
-			password = input.next();
-			if (lh.loginCheck(ID, password)) {
-				Member user;
-				user = lh.getMember(ID);
-				user.printMainpage();
+			while(true)
+			{
+				System.out.print("ID :");
+				ID = input.next();
+				System.out.print("Password :");
+				password = input.next();
+				if (lh.loginCheck(ID, password)) {
+					Member user;
+					user = lh.getMember(ID);
+					user.printMainpage();
+					break;	// 로그아웃
+				}
+				else
+				{
+					System.out.println("잘못된 아이디나 비밀번호 입력입니다.");
+					continue;
+				}
 			}
 			break;
 		case 2: // register
+			String[] list = new String[4]; // ID, Password, phoneNumber, Email
 			RegisterHelper rh = new RegisterHelper();
-			rh.addRequestList();
+			while(true)
+			{
+				System.out.println("[ 회원가입 ]");
+				System.out.println("양식에 따라 정보를 기재해 주시길 바랍니다.");
+				System.out.println("===========================");
+				System.out.print("ID : ");
+				list[0] = input.next();
+				System.out.print("Password : ");
+				list[1] = input.next();
+				System.out.print("Phone Number : ");
+				list[2] = input.next();
+				System.out.print("Email : ");
+				list[3] = input.next();
+				System.out.println("==========================");
+				if (rh.checkString(list[2], list[3])) { //phonenumber, email이 양식에 맞지 않음
+					System.out.println("양식에 맞지 않는 입력입니다.");
+					continue;	//다시 양식을 입력받는다.
+				}
+				else if(lh.hasID(list[0]))	// 중복 ID
+				{
+					System.out.println("이미 등록된 정보입니다.");
+					continue;	//다시 양식을 입력받는다.
+				}
+				else
+				{
+					rh.requestRegister(list[0],list[1],list[2],list[3]);
+					System.out.println("입력 완료되었습니다. 관리자의 승인 후 이용이 가능합니다.");
+					System.out.println("입력을 받으면 돌아갑니다.");
+					input.next();
+					break;
+				}
+			}
 			break;
 		case 3: // inquire galleryList
 			GalleryHelper gh = new GalleryHelper();

@@ -12,14 +12,10 @@ public class RegisterHelper {
 	}
 	void requestRegister(String ID, String password, String phoneNumber, String email){
 		
-		if(checkString(phoneNumber, email))
-		{
-			requestList.add(new GalleryManager(ID, password, phoneNumber, email));
-		}
-		else
-		{
-			System.out.println("양식에 맞지 않은 요청입니다");
-		}
+		requestList.add(new GalleryManager(ID, password, phoneNumber, email));
+		
+		
+		
 	}
 	boolean checkString(String phoneNumber, String email){
 		
@@ -39,9 +35,6 @@ public class RegisterHelper {
 		temp = requestList.get(0);
 		requestList.remove(0);
 		return temp;
-	}
-	void addRequestList(){
-		
 	}
 	boolean hasRequest(){
 		return !requestList.isEmpty();
