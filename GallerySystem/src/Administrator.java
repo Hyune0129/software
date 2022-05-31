@@ -24,6 +24,15 @@ public class Administrator extends Member{
 			System.out.println("=================================");
 			System.out.println("입력 >>");
 			select = input.nextInt();
+			if(select==1)	//logout
+			{
+				System.out.print("정말로 로그아웃하시겠습니까?(Y/N)");
+				String temp = input.next();
+				if(temp.equals("Y") || temp.equals("y"))
+				{
+					return;
+				}
+			}
 			mainSelect(select);
 		}
 	}
@@ -33,20 +42,12 @@ public class Administrator extends Member{
 		Scanner input = new Scanner(System.in);
 		switch(select)
 		{
-		case 1:
-			System.out.print("정말로 로그아웃하시겠습니까?(Y/N)");
-			String temp = input.next();
-			if(temp.equals("Y") || temp.equals("y"))
-			{
-				
-			}
-			break;
 		case 2:
 			break;
 		case 3:
 			break;
 		default:
-			
+			break;
 		}
 	}
 }

@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ExhibitHelper {
 	private static ArrayList<Exhibit> exhibitList;
@@ -50,8 +52,45 @@ public class ExhibitHelper {
 			System.out.println(localList.get(i));
 		}
 	}
-	void addExhibit(){
-		/*전시물 추가*/
+	void addExhibit(Gallery ownGallery){
+		String name,temp=null;
+		ArrayList<String> info = new ArrayList<String>();
+		Scanner input = new Scanner(System.in);
+		do
+		{
+			System.out.println("[ 전시물 추가 ]");
+			System.out.println("양식에 맞게 작성하여 제출해 주시길 바랍니다.");
+			System.out.println("'입력종료'를 작성하면 작성이 완료됩니다.");
+			System.out.println("===============================");
+			System.out.print("전시물 이름 : ");
+			name = input.nextLine();
+			if (hasExhibitName(name)) {
+				System.out.println("이미 해당 전시관에서 등록된 전시물입니다.");
+				continue;
+			}
+			System.out.print("전시물 소개 : ");
+			while(true)
+			{
+				temp = input.nextLine();
+				if(temp.equals("입력종료"))
+					break;
+				info.add(temp);
+			}
+			System.out.println("===============================");
+			System.out.println("===============================");
+			System.out.println("전시물 이름 : "+name);
+			System.out.print("전시물 소개 : ");
+			for(int i=0; i<info.size(); i++)
+				System.out.println(info.get(i));
+			System.out.println("===============================");
+			System.out.print("해당 정보로 등록하시겠습니까? (예/아니오)>> ");
+			if(input.next().equals("예"))
+				break;
+		}while(true);
+		Exhibit exhibit = new Exhibit(name, info, ownGallery.getname());
+		appendExhibitData(exhibit);
+		DBManager db = new DBManager();
+		db.writeExhibitData(exhibit);
 		
 	}
 }
