@@ -11,8 +11,8 @@ public class GalleryManager extends Member{
 		adminator = false;
 	}
 	boolean hasGallery(){
-		GalleryHelper findGalleryHelper = new GalleryHelper();
-		if(findGalleryHelper.hasGalleryName(ownGallery.getname()))
+		GalleryHelper gh = new GalleryHelper();
+		if(gh.hasGalleryName(ownGallery.getname()))
 			return true;
 		else
 			return false;
@@ -22,6 +22,14 @@ public class GalleryManager extends Member{
 	}
 	Gallery getOwnGallery(){
 		return ownGallery;
+	}
+	void printinfo(){	//register accept에서 정보를 print하기 위한 메소드
+		System.out.println("====================================");
+		System.out.println("ID : "+this.ID);
+		System.out.println("Password : "+this.password);
+		System.out.println("Phone Number : "+this.phoneNumber);
+		System.out.println("Email : "+this.email);
+		System.out.println("====================================");
 	}
 	@Override
 	public void printMainpage() {
@@ -47,6 +55,8 @@ public class GalleryManager extends Member{
 	}
 	@Override
 	public void mainSelect(int select) {
+		GalleryHelper gh = new GalleryHelper();
+		ExhibitHelper eh = new ExhibitHelper();
 		Scanner input = new Scanner(System.in);
 		String temp;
 		int num;
@@ -62,8 +72,8 @@ public class GalleryManager extends Member{
 				return;
 			}
 			
-			GalleryHelper manageGalleryHelper = new GalleryHelper();
-			Gallery newgallery = manageGalleryHelper.manageGallery(ownGallery);
+			
+			Gallery newgallery = gh.manageGallery(ownGallery);
 			if(newgallery == null)	//취소 시 null 반환 
 				return;
 			setOwnGallery(newgallery);
@@ -75,8 +85,7 @@ public class GalleryManager extends Member{
 				System.out.println("등록된 전시관이 이미 있습니다.");
 				return;
 			}
-			GalleryHelper addGalleryHelper = new GalleryHelper();
-			Gallery mygallery = addGalleryHelper.addGallery();
+			Gallery mygallery = gh.addGallery();
 			setOwnGallery(mygallery);
 			
 			System.out.println("등록이 완료되었습니다!");
@@ -87,8 +96,8 @@ public class GalleryManager extends Member{
 				System.out.println("전시관 등록 후 가능한 작업입니다.");
 				return;
 			}
-			ExhibitHelper addExhibitHelper = new ExhibitHelper();
-			addExhibitHelper.addExhibit(ownGallery);
+			
+			eh.addExhibit(ownGallery);
 			System.out.println("등록이 완료되었습니다!");
 			break;
 		default:

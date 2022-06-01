@@ -87,7 +87,7 @@ public class GalleryHelper {
 			temp = galleryList.get(i);
 			if(temp.equals(data))
 			{
-				db.deleteGalleryData(temp.getname());
+				db.deleteGalleryData(temp);
 				galleryList.remove(i);
 				return;
 			}

@@ -4,18 +4,17 @@ import java.util.regex.Pattern;
 public class RegisterHelper {
 	static ArrayList<GalleryManager> requestList;
 	
+	void init(DBManager db){
+		this.requestList = db.getRequsetData();
+	}
 	void acceptRegister(GalleryManager manager){
 		DBManager db = new DBManager();
 		LoginHelper lh = new LoginHelper();
 		db.writeMemberData(manager);
 		lh.addMember(manager);
 	}
-	void requestRegister(String ID, String password, String phoneNumber, String email){
-		
+	void requestRegister(String ID, String password, String phoneNumber, String email){	
 		requestList.add(new GalleryManager(ID, password, phoneNumber, email));
-		
-		
-		
 	}
 	boolean checkString(String phoneNumber, String email){
 		
@@ -32,6 +31,8 @@ public class RegisterHelper {
 	}
 	GalleryManager getRegisterRequest(){
 		GalleryManager temp;
+		if(requestList.isEmpty())
+			return null;
 		temp = requestList.get(0);
 		requestList.remove(0);
 		return temp;

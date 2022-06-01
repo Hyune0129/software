@@ -145,14 +145,23 @@ public class Customer extends Member implements SystemMain{
 		case 4: // find exhibit
 			String name;
 			Exhibit exhibit;
-			
-			System.out.print("전시물 이름?");
+			System.out.println("[ 전시물 찾기 ]");
+			System.out.print("찾고 싶은 전시물의 이름을 입력하세요>>");
 			name = input.next();
 			exhibit = eh.getExhibit(name);
 			if (exhibit == null) {
-				System.out.println("해당하는 전시물 없음");
+				System.out.println("해당하는 이름의 전시물이 없습니다.");
+				return;
 			} else {
-				System.out.println("전시물 출력");
+				System.out.println("[전시관 :"+exhibit.getlocation()+" ]");
+				exhibit.printExhibit();
+				try {
+					Thread.sleep(2000); //2초 대기
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.print("입력을 받으면 메인화면으로 돌아갑니다.");
+				input.nextLine();
 			}
 			break;
 		default:
