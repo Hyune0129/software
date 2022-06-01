@@ -14,7 +14,6 @@ public class Gallery {
 		return info;
 	}
 	void printGallery(){
-		String temp;
 		System.out.println("[ "+name+" ]");
 		System.out.println("===========================");
 		for(int i=0; i<info.size();i++){

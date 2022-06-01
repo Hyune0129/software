@@ -40,11 +40,20 @@ public class Administrator extends Member{
 	@Override
 	public void mainSelect(int select) {
 		Scanner input = new Scanner(System.in);
+		String temp;
 		switch(select)
 		{
-		case 2:
-			break;
-		case 3:
+		case 2:	//전시관 관리
+			System.out.println("[ 전시관 관리 ]");
+			System.out.print("관리할 전시관의 이름을 작성해주세요. >>");
+			temp = input.nextLine();
+			GalleryHelper manageGalleryHelper = new GalleryHelper();
+			Gallery newgallery = manageGalleryHelper.manageGallery(manageGalleryHelper.getGallery(temp));
+			if(newgallery == null)	//취소 시 null 반환 
+				return;
+			break;	
+		case 3:	//가입 요청 관리
+			
 			break;
 		default:
 			break;

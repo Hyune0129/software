@@ -83,7 +83,7 @@ public class DBManager {
 		return galleryList;
 	}
 	ArrayList<Member> getMemberInfoData(){
-		//ID;password;phonenumber;email;admin; 
+		//ID;password;phonenumber;email;admin or owngallery; 
 		String temp;
 		String[] info = new String[5];
 		StringTokenizer st;
@@ -140,13 +140,13 @@ public class DBManager {
 			e.printStackTrace();
 		}
 	}
-	void deleteExhibitData(String name){
+	void deleteExhibitData(Exhibit data){
 		
 	}
-	void deleteGalleryData(String name){
+	void deleteGalleryData(Gallery data){
 		
 	}
-	void deleteMemberData(String name){
+	void deleteMemberData(Member data){
 		
 	}
 }

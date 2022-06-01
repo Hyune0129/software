@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,10 +11,11 @@ public class Customer extends Member implements SystemMain{
 			System.out.println("***전시관 관리 시스템***");
 			System.out.println("원하시는 동작을 번호를 입력해 주시길 바랍니다!");
 			System.out.println("===============================================");
-			System.out.println("1. 로그인 | 2. 회원가입 | 3. 전시관 목록 | 4. 전시물 찾기");
+			System.out.println("1. 로그인 | 2. 회원가입 | 3. 전시관 목록 | 4. 전시물 찾기 | 5. 종료");
 			System.out.println("===============================================");
 			System.out.print("입력>> ");
 			select = input.nextInt();
+			if(select == 5 ) return;	//프로그램 종료
 			mainSelect(select);
 		}
 	}
@@ -22,6 +24,9 @@ public class Customer extends Member implements SystemMain{
 	public void mainSelect(int select) {
 		Scanner input = new Scanner(System.in);
 		LoginHelper lh = new LoginHelper();
+		RegisterHelper rh = new RegisterHelper();
+		ExhibitHelper eh = new ExhibitHelper();
+		GalleryHelper gh = new GalleryHelper();
 		switch (select) {
 		case 1: // login
 			String ID, password;
@@ -40,13 +45,13 @@ public class Customer extends Member implements SystemMain{
 				else
 				{
 					System.out.println("잘못된 아이디나 비밀번호 입력입니다.");
-					continue;
+					break; // printmain
 				}
 			}
 			break;
 		case 2: // register
 			String[] list = new String[4]; // ID, Password, phoneNumber, Email
-			RegisterHelper rh = new RegisterHelper();
+			
 			while(true)
 			{
 				System.out.println("[ 회원가입 ]");
@@ -81,7 +86,7 @@ public class Customer extends Member implements SystemMain{
 			}
 			break;
 		case 3: // inquire galleryList
-			GalleryHelper gh = new GalleryHelper();
+			
 			while (true) { // galleryList 화면 상태
 				gh.printGalleryList();
 				System.out.print("원하는 입력>>");
@@ -93,31 +98,54 @@ public class Customer extends Member implements SystemMain{
 					System.out.println("적절하지 않은 입력");
 					continue;
 				}
-				while (true) {
+				while (true) {	//get gallery data
 					gallery.printGallery();
+					System.out.println("1. 돌아가기 | 2. 전시물 목록");
+					System.out.print("입력>>");
 					num = input.nextInt();
-					if (num == 0) // 돌아가기->galleryList
+					if (num == 1) // 돌아가기->galleryList
 						break;
-					else if(num == 1)
+					else if(num == 2)
 					{	//exhibit List
-						ExhibitHelper eh = new ExhibitHelper();
-						eh.printLocalExhibitList(gallery.getname());
-						System.out.print("원하는 입력>>");
-						num = input.nextInt();
+						while(true){
+							System.out.println("[ 전시물 목록 ]");
+							System.out.println("정보를 확인할 전시관을 선택해주세요.");
+							System.out.println("======================================");
+							System.out.println("[0] 돌아가기");
+							eh.printLocalExhibitList(gallery.getname());
+							System.out.println("======================================");
+							System.out.print("입력>>");
+							num = input.nextInt();
+							if(num == 0) break;
+							ArrayList<Exhibit> localexhibitList = eh.getLocalExhibitList(gallery.getname());
+							if(num-1 > localexhibitList.size() || num < 0)
+							{
+								System.out.println("등록되지 않은 선택지입니다. 다시 선택해주십시오.");
+								continue;
+							}
+							else
+							{	//전시물 선택한 것의 정보를 확인
+								Exhibit exhibit = localexhibitList.get(num);
+								exhibit.printExhibit();
+								System.out.println("입력을 받으면 전시물 목록으로 돌아갑니다.");
+								input.nextLine();
+								continue;
+							}
+						}
 					}
 					else
 					{
 						System.out.println("적절하지 않은 입력");
 						continue;
 					}
-
+					
 				}
 			}
 			break;
 		case 4: // find exhibit
 			String name;
 			Exhibit exhibit;
-			ExhibitHelper eh = new ExhibitHelper();
+			
 			System.out.print("전시물 이름?");
 			name = input.next();
 			exhibit = eh.getExhibit(name);

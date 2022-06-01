@@ -29,9 +29,13 @@ public class ExhibitHelper {
 	}
 	void appendExhibitData(Exhibit data){
 		exhibitList.add(data);
+		DBManager db = new DBManager();
+		db.writeExhibitData(data);
 	}
 	void deleteExhibitData(Exhibit data){
 		exhibitList.remove(data);
+		DBManager db = new DBManager();
+		db.deleteExhibitData(data);
 	}
 	ArrayList<Exhibit> getLocalExhibitList(String location){
 		Exhibit temp;
@@ -49,8 +53,9 @@ public class ExhibitHelper {
 		localList = getLocalExhibitList(location);
 		for(int i=0; i<localList.size(); i++)
 		{
-			System.out.println(localList.get(i));
+			System.out.println("["+ i+1 + "] "+localList.get(i));
 		}
+		
 	}
 	void addExhibit(Gallery ownGallery){
 		String name,temp=null;
@@ -89,8 +94,7 @@ public class ExhibitHelper {
 		}while(true);
 		Exhibit exhibit = new Exhibit(name, info, ownGallery.getname());
 		appendExhibitData(exhibit);
-		DBManager db = new DBManager();
-		db.writeExhibitData(exhibit);
+		
 		
 	}
 }

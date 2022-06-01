@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GalleryManager extends Member{
@@ -10,10 +11,11 @@ public class GalleryManager extends Member{
 		adminator = false;
 	}
 	boolean hasGallery(){
-		if(ownGallery == null)
-			return false;
-		else
+		GalleryHelper findGalleryHelper = new GalleryHelper();
+		if(findGalleryHelper.hasGalleryName(ownGallery.getname()))
 			return true;
+		else
+			return false;
 	}
 	void setOwnGallery(Gallery gallery){
 		this.ownGallery = gallery;
@@ -45,18 +47,28 @@ public class GalleryManager extends Member{
 	}
 	@Override
 	public void mainSelect(int select) {
+		Scanner input = new Scanner(System.in);
+		String temp;
+		int num;
 		switch(select)
 		{
 		case 2:	// 전시관 관리
-			if(hasGallery()) {
-				GalleryHelper manageGalleryHelper = new GalleryHelper();
-				
-				
-				
-				
-				
+			System.out.println("[ 전시관 관리 ]");
+			System.out.print("관리할 전시관의 이름을 작성해주세요. >>");
+			temp = input.nextLine();
+			if(!temp.equals(ownGallery.getname()))
+			{
+				System.out.println("이름이 틀리거나, 본인이 등록한 전시관이 아닙니다.");
+				return;
 			}
+			
+			GalleryHelper manageGalleryHelper = new GalleryHelper();
+			Gallery newgallery = manageGalleryHelper.manageGallery(ownGallery);
+			if(newgallery == null)	//취소 시 null 반환 
+				return;
+			setOwnGallery(newgallery);
 			break;
+			
 		case 3:	//add gallery
 			if(hasGallery())
 			{
