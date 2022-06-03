@@ -1,9 +1,12 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -54,7 +57,7 @@ public class DBManager {
 	
 	
 	ArrayList<Gallery> getGalleryData() {
-		//name;info1|info2|info3|...; 순
+		//name;info1|info2|info3|...|; 순
 		String temp, name;
 		ArrayList<String> info;
 		ArrayList<Gallery> galleryList = new ArrayList<Gallery>();
@@ -109,10 +112,12 @@ public class DBManager {
 				else
 				{//GalleryManager일때
 					GalleryManager member = new GalleryManager(info[0], info[1], info[2], info[3]);
-					if(!info[4].equals(""))	//등록된 전시관 존재
+					if(!info[4].equals(" "))	//등록된 전시관 존재
 					{
 						GalleryHelper gh = new GalleryHelper();
-						member.setOwnGallery(gh.getGallery(info[4]));
+						Gallery ownGallery = gh.getGallery(info[4]);
+						if(ownGallery != null);
+							member.setOwnGallery(ownGallery);
 					}
 					memberList.add(member);
 				}
@@ -131,7 +136,7 @@ public class DBManager {
 		StringTokenizer st;
 		ArrayList<GalleryManager> requestList = new ArrayList<GalleryManager>();
 		try {
-			Scanner fileinput = new Scanner(memberInfo,"UTF-8");
+			Scanner fileinput = new Scanner(request,"UTF-8");
 			fileinput.nextLine();
 			while(fileinput.hasNextLine())
 			{
@@ -151,10 +156,10 @@ public class DBManager {
 		
 	}
 	void writeExhibitData(Exhibit data){
-		//name;location;info1|info2|info3|...;
+		//name;location;info1|info2|info3|...|;
 		try {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(exhibit,true),"UTF8"));
-			bw.write(data.name);
+			bw.write(data.getname());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -180,11 +185,15 @@ public class DBManager {
 		try {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(memberInfo,true),"UTF8"));
 			bw.write("\r\n");
-			bw.write(data.ID+";");
-			bw.write(data.password+";");
-			bw.write(data.phoneNumber+";");
-			bw.write(data.email+";");
-			bw.write(data.getOwnGallery()+";");
+			bw.write(data.getID()+";");
+			bw.write(data.getPassword()+";");
+			bw.write(data.getPhoneNumber()+";");
+			bw.write(data.getEmail()+";");
+			Gallery ownGallery = data.getOwnGallery();
+			if(ownGallery==null)
+				bw.write(" "+";");
+			else
+				bw.write(ownGallery.getname());
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -195,28 +204,138 @@ public class DBManager {
 		// ID;password;phonenumber;email;
 		try {
 			BufferedWriter bw = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(memberInfo, true), "UTF8"));
+					new OutputStreamWriter(new FileOutputStream(request, true), "UTF8"));
 			bw.write("\r\n");
-			bw.write(data.ID + ";");
-			bw.write(data.password + ";");
-			bw.write(data.phoneNumber + ";");
-			bw.write(data.email + ";");
+			bw.write(data.getID()+";");
+			bw.write(data.getPassword()+";");
+			bw.write(data.getPhoneNumber()+";");
+			bw.write(data.getEmail()+";");
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	void deleteExhibitData(Exhibit data){
-		
+
+	void deleteExhibitData(Exhibit data) {
+		//name;location;info1|info2|info3|...|;
+		ArrayList<String> info;
+		String infodata="";
+		info = data.getinfo();
+		for(int i=0; i<info.size(); i++)
+		{
+			infodata += info.get(i)+"|";
+		}
+		String delline = data.getname() + ";" + data.getlocation() + ";" + infodata + ";";
+		String dummy = "";
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(exhibit), "UTF-8"));
+			String line;
+			dummy += br.readLine();
+			while ((line = br.readLine()) != null) {
+				if (line.equals(delline))
+					break;
+				dummy += ("\r\n"+ line );
+			}
+			while ((line = br.readLine()) != null) { //삭제 이후
+				dummy += ("\r\n"+line);
+			}
+			FileWriter fw = new FileWriter(exhibit);	//덮어쓰기
+			fw.write(dummy);
+			fw.close();
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	void deleteGalleryData(Gallery data){
-		
+
+	void deleteGalleryData(Gallery data) {
+		//name;info1|info2|info3|...;
+		ArrayList<String> info;
+		String infodata="";
+		info = data.getinfo();
+		for(int i=0; i<info.size(); i++)
+		{
+			infodata += info.get(i)+"|";
+		}
+		String delline = data.getname() + ";" + infodata + ";";
+		String dummy = "";
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(gallery), "UTF-8"));
+			String line;
+			dummy += br.readLine();
+			while ((line = br.readLine()) != null) {
+				if (line.equals(delline))
+					break;
+				dummy += ("\r\n"+line);
+			}
+			while ((line = br.readLine()) != null) {	//삭제 데이터 이후 저장
+				dummy += ("\r\n"+line);
+			}
+			FileWriter fw = new FileWriter(gallery);	//덮어쓰기
+			fw.write(dummy);
+			// bw.close();
+			fw.close();
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	void deleteMemberData(Member data){
-		
+
+	void deleteMemberData(GalleryManager data) {
+		//ID;password;phonenumber;email;ownGallery; 
+		Gallery ownGallery = data.getOwnGallery();			
+		String delline = data.getID() + ";" + data.getPassword() + ";" + data.getPhoneNumber() + ";"+data.getEmail()+";";
+		if(data.hasGallery())
+			delline += ownGallery.getname()+";";
+		else
+			delline += " "+";";
+		String dummy = "";
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(memberInfo), "UTF-8"));
+			String line;
+			dummy +=br.readLine();
+			while ((line = br.readLine()) != null) {
+				if (line.equals(delline))
+					break;
+				dummy += ("\r\n"+line);
+			}
+			while ((line = br.readLine()) != null) {	//제거하려는 라인 건너뛰고 읽기
+				dummy += ("\r\n"+line);
+			}
+			FileWriter fw = new FileWriter(memberInfo); //덮어쓰기
+			fw.write(dummy);
+			fw.close();
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	void deleteRequestData(GalleryManager data)
-	{
+
+	void deleteRequestData(GalleryManager data) {
+		// ID;password;phonenumber;email;		
+		String delline = data.getID() + ";" + data.getPassword() + ";" + data.getPhoneNumber() + ";" + data.getEmail()
+				+ ";";
 		
+	
+		String dummy = "";
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(request), "UTF-8"));
+			String line;
+			dummy +=br.readLine();
+			while ((line = br.readLine()) != null) {
+				if (line.equals(delline))
+					break;
+				dummy += ("\r\n"+line);
+			}
+			while ((line = br.readLine()) != null) { // 제거하려는 라인 건너뛰고 읽기
+				dummy += ("\r\n"+line);
+			}
+			FileWriter fw = new FileWriter(request); // 덮어쓰기
+			fw.write(dummy);
+			fw.close();
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Exhibit {
-	String name;
-	ArrayList<String> info;
-	String location;
+	private String name;
+	private ArrayList<String> info;
+	private String location;
 	Exhibit(String name, ArrayList<String> info, String location){
 		this.name = name;
 		this.info = info;

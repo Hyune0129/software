@@ -3,13 +3,16 @@ import java.util.ArrayList;
 public class LoginHelper {
 	static ArrayList<Member> memberList;
 	void init(DBManager db){
-		memberList.addAll(db.getMemberInfoData());
+		ArrayList<Member> temp = db.getMemberInfoData();
+		if(temp ==null)
+			temp = new ArrayList<Member>();
+		this.memberList = temp;
 	}
 	boolean loginCheck(String ID,String password){
 		Member temp;
 		for(int i=0; i<memberList.size(); i++){
 			temp = memberList.get(i);
-			if(temp.ID == ID && temp.password == password)
+			if(temp.getID().equals(ID) && temp.getPassword().equals(password))
 				return true;
 		}
 		return false;
@@ -18,7 +21,7 @@ public class LoginHelper {
 		Member temp;
 		for(int i=0; i<memberList.size(); i++){
 			temp = memberList.get(i);
-			if(temp.ID == ID)
+			if(temp.getID().equals(ID))
 			{
 				return temp;
 			}
@@ -32,7 +35,7 @@ public class LoginHelper {
 		Member temp;
 		for(int i=0; i<memberList.size(); i++){
 			temp = memberList.get(i);
-			if(temp.ID == ID)
+			if(temp.getID().equals(ID))
 				return true;
 		}
 		return false;

@@ -2,10 +2,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GalleryHelper {
-	static ArrayList<Gallery> galleryList;
+	private static ArrayList<Gallery> galleryList;
 
 	void init(DBManager db) {
-		this.galleryList.addAll(db.getGalleryData());
+		ArrayList<Gallery> temp = db.getGalleryData();
+		if(temp ==null)
+			temp = new ArrayList<Gallery>();
+		this.galleryList = temp;
 	}
 
 	Gallery addGallery() {
@@ -52,14 +55,14 @@ public class GalleryHelper {
 		Gallery temp;
 		for(int i=0; i<galleryList.size(); i++){
 			temp = galleryList.get(i);
-			if(name == temp.name)
+			if(name.equals(temp.getname()))
 				return temp;	
 		}
 		return null;
 	}
 	Gallery getGallery(int num)
 	{	
-		if(num < -1 || num>galleryList.size())
+		if(num < -1 || num>=galleryList.size())
 			return null;
 		return galleryList.get(num);
 	}
@@ -67,7 +70,7 @@ public class GalleryHelper {
 		Gallery temp;
 		for(int i=0; i<galleryList.size(); i++){
 			temp = galleryList.get(i);
-			if(name == temp.name)
+			if(name.equals(temp.getname()))
 				return true;	
 		}
 		return false;
@@ -97,54 +100,82 @@ public class GalleryHelper {
 		int num;
 		String temp;
 		Scanner input = new Scanner(System.in);
-		System.out.println("전시관 관리 중 원하는 작업을 선택해주세요.");
-		System.out.println("1. 전시관 수정 | 2. 전시관 삭제 | 3. 전시물 관리");
-		System.out.print("입력>>");
-		num = input.nextInt();
-		GalleryHelper modifyGalleryHelper = new GalleryHelper();
 		ArrayList<String> info = gallery.getinfo();
-		System.out.println("=================================");
-		for(int i =0; i<info.size(); i++)
-		{
-			System.out.println(i+" " + info.get(i));
-		}
-		System.out.println("=================================");
+		DBManager db = new DBManager();
 		while(true)
 		{
-			System.out.print("수정할 시작점을 선택하주세요.(취소 : 0) >>");
-			num = input.nextInt();
-			if(num ==0 ) 
+		System.out.println("전시관 관리 중 원하는 작업을 선택해주세요.");
+		System.out.println("1. 전시관 수정 | 2. 전시관 삭제 | 3. 전시물 관리 | 4. 취소");
+		num = Integer.parseInt(input.nextLine());
+			switch (num) {
+			case 1: // 전시관 수정 -> (전시관 데이터 삭제-> 전시관 데이터 추가)
+				System.out.println("=================================");
+				for (int i = 0; i < info.size(); i++) {
+					System.out.println("[" + (i + 1) + "] " + info.get(i));
+				}
+				System.out.println("=================================");
+				while (true) {
+					System.out.print("수정할 시작점을 선택하주세요.(취소 : 0) >>");
+					num = Integer.parseInt(input.nextLine());
+					if (num == 0)
+						return null;
+					else if (num - 1 > info.size()) {
+						System.out.println("유효하지 않은 입력입니다.");
+						continue;
+					}
+					break;
+				}
+				
+				for (int i = info.size()-1; i >= num; i--)
+					info.remove(i);
+				while (true) { // info 입력 수정
+					System.out.print( "["+ num++ + "] ");
+					temp = input.nextLine();
+					if (temp.equals("입력종료"))
+						break;
+					info.add(temp);
+				}
+				// 삭제
+				deleteGalleryList(gallery);
+				Gallery newGallery = new Gallery(gallery.getname(), info);
+				appendGalleryList(newGallery);
+				System.out.println("수정이 완료되었습니다!");
+				System.out.println("엔터 입력시 메인화면으로 이동합니다.");
+				input.nextLine();
+				return newGallery;	//GalleryManager의 ownGallery를 위한 리턴
+			case 2:
+				System.out.println("정말로 전시관 [" +gallery.getname()+"]를 삭제하시겠습니까?");
+				System.out.println("확인을 위해 삭제할 전시물의 이름을 작성하여 주시길 바랍니다.");
+				temp = input.nextLine();
+				if(temp.equals(gallery.getname()))
+				{
+					deleteGalleryList(gallery);
+					System.out.println("["+temp+"]의 삭제가 완료되었습니다.");
+					System.out.println("엔터 입력시 메인화면으로 이동합니다.");
+					input.nextLine();
+					return null;
+				}
+				else{
+					System.out.println("해당 이름과 맞지 않습니다.");
+					System.out.println("엔터 입력시 메인화면으로 이동합니다.");
+					input.nextLine();
+					return null;
+				}
+			case 3:
+				ExhibitHelper eh = new ExhibitHelper();
+				eh.manageExhibit(gallery);
 				return null;
-			else if(num>info.size())
-			{
-				System.out.println("유효하지 않은 입력입니다.");
+			case 4:
+				return null;
 			}
-			break;
 		}
-		//삭제
-		
-		modifyGalleryHelper.deleteGalleryList(gallery);
-		for(int i=num-1; i<info.size(); i++)
-			info.remove(i);
-		while(true)
-		{	//info 입력 수정
-			System.out.print(num++ + " ");
-			temp = input.nextLine();
-			if(temp.equals("입력종료"))
-				break;
-			info.add(temp);
-		}
-			
-		Gallery newGallery = new Gallery(gallery.getname(), info);
-		modifyGalleryHelper.appendGalleryList(newGallery);
-		return newGallery;
 	}
 	void printGalleryList(){
 		Gallery temp;
 		System.out.println("[0] 돌아가기");
 		for(int i=0; i<galleryList.size(); i++){
 			temp = galleryList.get(i);
-			System.out.println("["+(i+1)+"] "+temp.name);
+			System.out.println("["+(i+1)+"] "+temp.getname());
 		}
 	}
 }

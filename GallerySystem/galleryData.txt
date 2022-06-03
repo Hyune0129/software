@@ -1,1 +1,2 @@
-name;info1|info2|info3|...;
+name;info1|info2|info3|...|;
+PhotoGallery;info1|info2|info3|;asdfqwer;asdf|qwer|와!|샌즈!|겁나 어렵습니다!|;

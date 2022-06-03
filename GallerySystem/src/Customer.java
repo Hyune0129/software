@@ -1,22 +1,28 @@
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Customer extends Member implements SystemMain{
 	@Override
 	public void printMainpage() {
-		Scanner input = new Scanner(System.in);
 		int select;
 		while (true) {
+			SystemMain.clear();
+			Scanner input = new Scanner(System.in);
 			System.out.println("***전시관 관리 시스템***");
 			System.out.println("원하시는 동작을 번호를 입력해 주시길 바랍니다!");
 			System.out.println("===============================================");
 			System.out.println("1. 로그인 | 2. 회원가입 | 3. 전시관 목록 | 4. 전시물 찾기 | 5. 종료");
 			System.out.println("===============================================");
 			System.out.print("입력>> ");
-			select = input.nextInt();
-			if(select == 5 ) return;	//프로그램 종료
-			mainSelect(select);
+			select = Integer.parseInt(input.nextLine());
+			if(select == 5 ) 
+				{
+					input.close();
+					return;	//프로그램 종료
+				}
+			else{
+				mainSelect(select);
+			}
 		}
 	}
 
@@ -33,9 +39,9 @@ public class Customer extends Member implements SystemMain{
 			while(true)
 			{
 				System.out.print("ID :");
-				ID = input.next();
+				ID = input.nextLine();
 				System.out.print("Password :");
-				password = input.next();
+				password = input.nextLine();
 				if (lh.loginCheck(ID, password)) {
 					Member user;
 					user = lh.getMember(ID);
@@ -45,6 +51,8 @@ public class Customer extends Member implements SystemMain{
 				else
 				{
 					System.out.println("잘못된 아이디나 비밀번호 입력입니다.");
+					System.out.println("엔터 입력시 메인 화면으로 이동합니다.");
+					input.nextLine();
 					break; // printmain
 				}
 			}
@@ -61,9 +69,9 @@ public class Customer extends Member implements SystemMain{
 				list[0] = input.next();
 				System.out.print("Password : ");
 				list[1] = input.next();
-				System.out.print("Phone Number : ");
+				System.out.print("Phone Number(xxx-xxxx-xxxx) : ");
 				list[2] = input.next();
-				System.out.print("Email : ");
+				System.out.print("Email(xxx@xxxxx.xxx) : ");
 				list[3] = input.next();
 				System.out.println("==========================");
 				if (rh.checkString(list[2], list[3])) { //phonenumber, email이 양식에 맞지 않음
@@ -80,8 +88,9 @@ public class Customer extends Member implements SystemMain{
 					rh.requestRegister(list[0],list[1],list[2],list[3]);
 					System.out.println("입력 완료되었습니다. 관리자의 승인 후 이용이 가능합니다.");
 					System.out.println("입력을 받으면 돌아갑니다.");
-					input.next();
+					input.nextLine();
 					break;
+					
 				}
 			}
 			break;
@@ -90,9 +99,11 @@ public class Customer extends Member implements SystemMain{
 			while (true) { // galleryList 화면 상태
 				gh.printGalleryList();
 				System.out.print("원하는 입력>>");
-				int num = input.nextInt();
+				int num = Integer.parseInt(input.nextLine());
 				if (num == 0) // 돌아가기 -> mainselect
+				{
 					break;
+				}
 				Gallery gallery = gh.getGallery(num - 1);
 				if (gallery == null) {
 					System.out.println("적절하지 않은 입력");
@@ -102,7 +113,7 @@ public class Customer extends Member implements SystemMain{
 					gallery.printGallery();
 					System.out.println("1. 돌아가기 | 2. 전시물 목록");
 					System.out.print("입력>>");
-					num = input.nextInt();
+					num = Integer.parseInt(input.nextLine());
 					if (num == 1) // 돌아가기->galleryList
 						break;
 					else if(num == 2)
@@ -115,7 +126,7 @@ public class Customer extends Member implements SystemMain{
 							eh.printLocalExhibitList(gallery.getname());
 							System.out.println("======================================");
 							System.out.print("입력>>");
-							num = input.nextInt();
+							num = Integer.parseInt(input.nextLine());
 							if(num == 0) break;
 							ArrayList<Exhibit> localexhibitList = eh.getLocalExhibitList(gallery.getname());
 							if(num-1 > localexhibitList.size() || num < 0)
@@ -125,7 +136,7 @@ public class Customer extends Member implements SystemMain{
 							}
 							else
 							{	//전시물 선택한 것의 정보를 확인
-								Exhibit exhibit = localexhibitList.get(num);
+								Exhibit exhibit = localexhibitList.get(num-1);
 								exhibit.printExhibit();
 								System.out.println("입력을 받으면 전시물 목록으로 돌아갑니다.");
 								input.nextLine();

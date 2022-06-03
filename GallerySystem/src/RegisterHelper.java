@@ -5,7 +5,10 @@ public class RegisterHelper {
 	static ArrayList<GalleryManager> requestList;
 	
 	void init(DBManager db){
-		this.requestList = db.getRequsetData();
+		ArrayList<GalleryManager> temp = db.getRequsetData();
+		if(temp ==null)
+			temp = new ArrayList<GalleryManager>();
+		this.requestList = temp;
 	}
 	void acceptRegister(GalleryManager manager){
 		DBManager db = new DBManager();
@@ -13,8 +16,11 @@ public class RegisterHelper {
 		db.writeMemberData(manager);
 		lh.addMember(manager);
 	}
-	void requestRegister(String ID, String password, String phoneNumber, String email){	
+	void requestRegister(String ID, String password, String phoneNumber, String email){
+		DBManager db = new DBManager();
 		requestList.add(new GalleryManager(ID, password, phoneNumber, email));
+		db.writeRequestData(new GalleryManager(ID, password, phoneNumber, email));
+		
 	}
 	boolean checkString(String phoneNumber, String email){
 		
