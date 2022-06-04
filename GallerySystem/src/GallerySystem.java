@@ -9,9 +9,9 @@ public class GallerySystem {
 		RegisterHelper registerhelper = new RegisterHelper();
 		ExhibitHelper exhibithelper = new ExhibitHelper();
 		galleryhelper.init(dbmanager);
-		exhibithelper.init(dbmanager);
 		loginmanager.init(dbmanager);
 		registerhelper.init(dbmanager);
+		exhibithelper.init(dbmanager);
 		Customer customer = new Customer();
 		customer.printMainpage();
 		System.out.println("[ Á¾·á ]");

@@ -149,7 +149,6 @@ public class Customer extends Member implements SystemMain{
 						System.out.println("적절하지 않은 입력");
 						continue;
 					}
-					
 				}
 			}
 			break;
@@ -163,21 +162,16 @@ public class Customer extends Member implements SystemMain{
 			if (exhibit == null) {
 				System.out.println("해당하는 이름의 전시물이 없습니다.");
 				return;
-			} else {
+			} 
+			else {
 				System.out.println("[전시관 :"+exhibit.getlocation()+" ]");
 				exhibit.printExhibit();
-				try {
-					Thread.sleep(2000); //2초 대기
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			}
 				System.out.print("입력을 받으면 메인화면으로 돌아갑니다.");
 				input.nextLine();
-			}
 			break;
 		default:
 			System.out.println("잘못된 입력");
 		}
 	}
-
 }

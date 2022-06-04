@@ -124,7 +124,7 @@ public class ExhibitHelper {
 			if(num == 0 ){
 				return;
 			}
-			else if(num-1>exhibitList.size()||num<0)
+			else if(num>exhibitList.size()||num<0)
 			{
 				System.out.println("유효하지 않은 값입니다. 다시 입력해 주시길 바랍니다.");
 				continue;
@@ -146,30 +146,22 @@ public class ExhibitHelper {
 						System.out.println("=========================================");
 						System.out.print("수정할 시작점을 선택해주세요. (취소 : 0)>>");
 						num = Integer.parseInt(input.nextLine());
-						if(num<0 || num-1 > info.size()){
+						if(num<0 || num>info.size()){
 							System.out.println("유효하지 않은 값입니다. 다시 입력해 주십시오.");
 							continue;
 						}
 						else if(num==0){//취소
 							return;
 						}
-						System.out.println("=========================================");
-						for(int i=0; i< num-1; i++)
-						{
-							System.out.print("["+(i+1)+"] ");
-							System.out.println(info.get(i));
-						}
-						for (int i = info.size()-1; i >= num; i--)
-							info.remove(i);
+						deleteExhibitData(exhibit);
+						for (int i = info.size(); i >= num; i--)
+							info.remove(i-1);
 						while(true){
 							System.out.print("["+ num++ +"] ");
 							temp = input.nextLine();
 							if(temp.equals("입력종료"))
 							{
-								String name = exhibit.getname();
-								String location = exhibit.getlocation();
-								deleteExhibitData(exhibit);
-								appendExhibitData(new Exhibit(name, info, location));
+								appendExhibitData(exhibit);
 								System.out.println("수정이 완료되었습니다!");
 								System.out.println("엔터 입력시 메인화면으로 이동합니다.");
 								input.nextLine();

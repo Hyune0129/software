@@ -80,23 +80,7 @@ public class GalleryManager extends Member{
 				input.nextLine();
 				return;
 			}
-			System.out.println("[ 전시관 관리 ]");
-			System.out.print("관리할 전시관의 이름을 작성해주세요. >>");
-			temp = input.nextLine();
-			if(!temp.equals(ownGallery.getname()))
-			{
-				System.out.println("이름이 틀리거나, 본인이 등록한 전시관이 아닙니다.");
-				System.out.println("엔터 입력시 메인화면으로 이동합니다.");
-				input.nextLine();
-				return;
-			}
-			
-			
-			Gallery newgallery = gh.manageGallery(ownGallery);
-			if(newgallery == null)	//수정 취소 시 null 반환 
-				return;
-			
-			setOwnGallery(newgallery);
+			gh.manageGallery(ownGallery);
 			break;
 			
 		case 3:	//add gallery

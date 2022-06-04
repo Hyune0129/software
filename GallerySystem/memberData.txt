@@ -2,3 +2,4 @@ ID;Password;PhoneNumber;Email;OwnGallery;
 Admin;admin;000-0000-0000;xxx@xxxxx.com;admin
 Immanager;immanager;123-3456-7891;asdf@asdf.com; ;
 asdfqwer;asdfqwer;123-4567-8971;asdf@werq.com;asdfqwer
+galleryasdf;galleryasdf;000-0000-0000;asd@qwer.com; ;
