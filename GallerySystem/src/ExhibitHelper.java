@@ -30,12 +30,12 @@ public class ExhibitHelper {
 		}
 		return false;
 	}
-	void appendExhibitData(Exhibit data){
+	void appendExhibitList(Exhibit data){
 		exhibitList.add(data);
 		DBManager db = new DBManager();
 		db.writeExhibitData(data);
 	}
-	void deleteExhibitData(Exhibit data){
+	void deleteExhibitList(Exhibit data){
 		exhibitList.remove(data);
 		DBManager db = new DBManager();
 		db.deleteExhibitData(data);
@@ -69,7 +69,7 @@ public class ExhibitHelper {
 			System.out.println("[ 전시물 추가 ]");
 			System.out.println("양식에 맞게 작성하여 제출해 주시길 바랍니다.");
 			System.out.println("'입력종료'를 작성하면 작성이 완료됩니다.");
-			System.out.println("===============================");
+			System.out.println("====================================");
 			System.out.print("전시물 이름 : ");
 			name = input.nextLine();
 			if (hasExhibitName(name)) {
@@ -84,13 +84,13 @@ public class ExhibitHelper {
 					break;
 				info.add(temp);
 			}
-			System.out.println("===============================");
-			System.out.println("===============================");
+			System.out.println("====================================");
+			System.out.println("====================================");
 			System.out.println("전시물 이름 : "+name);
 			System.out.print("전시물 소개 : ");
 			for(int i=0; i<info.size(); i++)
 				System.out.println(info.get(i));
-			System.out.println("===============================");
+			System.out.println("====================================");
 			System.out.print("해당 정보로 등록하시겠습니까? (예/아니오)>> ");
 			if(input.nextLine().equals("아니오"))
 			{
@@ -102,7 +102,7 @@ public class ExhibitHelper {
 				break;
 		}while(true);
 		Exhibit exhibit = new Exhibit(name, info, ownGallery.getname());
-		appendExhibitData(exhibit);
+		appendExhibitList(exhibit);
 	}
 	void manageExhibit(Gallery gallery){
 		Scanner input = new Scanner(System.in);
@@ -112,13 +112,13 @@ public class ExhibitHelper {
 		{
 			System.out.println("[ 전시관 관리 ]");
 			System.out.println("관리할 전시물을 선택하세요.");
-			System.out.println("=====================================");
+			System.out.println("=========================================");
 			ArrayList<Exhibit> exhibitList = getLocalExhibitList(gallery.getname());
 			System.out.println("[0] 돌아가기");
 			for (int i = 0; i < exhibitList.size(); i++) {
-				System.out.println("[" + (i + 1) + "]" + exhibitList.get(i).getname());
+				System.out.println("[" + (i + 1) + "] " + exhibitList.get(i).getname());
 			}
-			System.out.println("=====================================");
+			System.out.println("=========================================");
 			System.out.print("입력>>");
 			num = Integer.parseInt(input.nextLine());
 			if(num == 0 ){
@@ -133,10 +133,11 @@ public class ExhibitHelper {
 			while(true){
 				System.out.println("[" + exhibit.getname() + "]을 어떻게 하시겠습니까?");
 				System.out.println("1. 전시물 수정 | 2. 전시물 삭제");
+				System.out.print("입력>>");
 				num = Integer.parseInt(input.nextLine());
 				switch(num)
 				{
-				case 1:
+				case 1:	//전시물 수정
 					ArrayList<String> info = exhibit.getinfo();
 					while(true){
 						System.out.println("=========================================");
@@ -153,7 +154,7 @@ public class ExhibitHelper {
 						else if(num==0){//취소
 							return;
 						}
-						deleteExhibitData(exhibit);
+						deleteExhibitList(exhibit);	//DB와 List에서 삭제
 						for (int i = info.size(); i >= num; i--)
 							info.remove(i-1);
 						while(true){
@@ -161,7 +162,7 @@ public class ExhibitHelper {
 							temp = input.nextLine();
 							if(temp.equals("입력종료"))
 							{
-								appendExhibitData(exhibit);
+								appendExhibitList(exhibit);	///DB와 List에 추가
 								System.out.println("수정이 완료되었습니다!");
 								System.out.println("엔터 입력시 메인화면으로 이동합니다.");
 								input.nextLine();
@@ -176,10 +177,12 @@ public class ExhibitHelper {
 					temp = input.nextLine();
 					if(temp.equals(exhibit.getname()))
 					{
-						deleteExhibitData(exhibit);
+						deleteExhibitList(exhibit);
+						exhibit = null;
 						System.out.println("삭제가 완료되었습니다.");
 						System.out.println("엔터 입력시 메인화면으로 이동합니다.");
 						input.nextLine();
+						return;
 					}
 					else{
 						System.out.println("삭제가 취소되었습니다.");

@@ -20,9 +20,9 @@ public class Exhibit {
 	}
 	void printExhibit(){
 		System.out.println("[ "+name+" ]");
-		System.out.println("============================");
+		System.out.println("=======================================");
 		for(int i=0; i<info.size(); i++)
 			System.out.println(info.get(i));
-		System.out.println("============================");
+		System.out.println("=======================================");
 	}
 }

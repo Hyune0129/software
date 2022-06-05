@@ -97,7 +97,7 @@ public class DBManager {
 		StringTokenizer st;
 		ArrayList<Member> memberList = new ArrayList<Member>();
 		try {
-			BufferedReader fileinput = new BufferedReader(new InputStreamReader(new FileInputStream(memberInfo), "utf-8"));
+			BufferedReader fileinput = new BufferedReader(new InputStreamReader(new FileInputStream(memberInfo), "UTF-8"));
 			fileinput.readLine();
 			while ((line = fileinput.readLine()) != null) {
 				st = new StringTokenizer(line, ";");
@@ -198,7 +198,7 @@ public class DBManager {
 			if(ownGallery==null)
 				bw.write(" "+";");
 			else
-				bw.write(ownGallery.getname());
+				bw.write(ownGallery.getname()+";");
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -291,7 +291,7 @@ public class DBManager {
 		//ID;password;phonenumber;email;ownGallery; 
 		Gallery ownGallery = data.getOwnGallery();			
 		String delline = data.getID() + ";" + data.getPassword() + ";" + data.getPhoneNumber() + ";"+data.getEmail()+";";
-		if(data.hasGallery())
+		if(ownGallery != null)
 			delline += ownGallery.getname()+";";
 		else
 			delline += " "+";";
@@ -299,7 +299,7 @@ public class DBManager {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(memberInfo), "UTF-8"));
 			String line;
-			dummy +=br.readLine();
+			dummy += br.readLine();
 			while ((line = br.readLine()) != null) {
 				if (line.equals(delline))
 					break;

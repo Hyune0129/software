@@ -47,15 +47,15 @@ public class GalleryManager extends Member{
 			System.out.println("***전시관 관리 시스템***");
 			System.out.println("환영합니다 " + ID + "님!");
 			System.out.println("원하시는 동작을 번호를 입력해 주시길 바랍니다!");
-			System.out.println("=================================");
+			System.out.println("==================================================");
 			System.out.println("1. 로그아웃 | 2. 전시관 관리 | 3. 전시관 등록 | 4. 전시물 추가");
-			System.out.println("=================================");
+			System.out.println("==================================================");
 			System.out.print("입력>>");
 			select = Integer.parseInt(input.nextLine());
 			if (select == 1) // logout
 			{
 				System.out.print("정말로 로그아웃하시겠습니까?(Y/N)");
-				String temp = input.next();
+				String temp = input.nextLine();
 				if (temp.equals("Y") || temp.equals("y")) {
 					return;
 				}
@@ -116,7 +116,9 @@ public class GalleryManager extends Member{
 			input.nextLine();
 			break;
 		default:
-				
+				System.out.println("잘못된 입력입니다.");
+				System.out.println("엔터 입력시 메인화면으로 이동합니다.");
+				input.nextLine();
 		}
 	}
 }

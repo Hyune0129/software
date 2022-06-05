@@ -19,9 +19,9 @@ public class Administrator extends Member{
 			System.out.println("***전시관 관리 시스템***");
 			System.out.println("환영합니다 " + ID + "님!");
 			System.out.println("원하시는 동작을 번호를 입력해 주시길 바랍니다!");
-			System.out.println("=================================");
+			System.out.println("=======================================");
 			System.out.println("1. 로그아웃 | 2. 전시관 관리 | 3. 가입 요청 관리");
-			System.out.println("=================================");
+			System.out.println("=======================================");
 			System.out.print("입력 >>");
 			select = Integer.parseInt(input.nextLine());
 			
@@ -96,6 +96,9 @@ public class Administrator extends Member{
 			}
 			break;
 		default:
+			System.out.println("잘못된 입력입니다.");
+			System.out.println("엔터 입력시 메인화면으로 이동합니다.");
+			input.nextLine();
 			break;
 		}
 	}

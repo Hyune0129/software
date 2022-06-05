@@ -36,16 +36,34 @@ public class GalleryHelper {
 					info.add(temp);
 				}
 			}
-			System.out.println("==============================");
-			System.out.println("==============================");
-			System.out.println("전시관 이름 : " + name);
-			System.out.print("전시관 소개 : ");
-			for (int i = 0; i < info.size(); i++)
-				System.out.println(info.get(i));
-			System.out.println("==============================");
-			System.out.println("해당 정보로 등록하시겠습니까? (예/아니오)>> ");
-			temp = input.next();
-		}while(temp.equals("예"));
+			while(true)
+			{
+				System.out.println("==============================");
+				System.out.println("==============================");
+				System.out.println("전시관 이름 : " + name);
+				System.out.print("전시관 소개 : ");
+				for (int i = 0; i < info.size(); i++)
+					System.out.println(info.get(i));
+				System.out.println("==============================");
+				System.out.print("해당 정보로 등록하시겠습니까? (예/아니오)>> ");
+				temp = input.nextLine();
+				if (temp.equals("아니오") || temp.equals("예")) {
+					break;
+				} 
+				else {
+					System.out.println("잘못된 입력입니다.");
+					continue;
+				}
+			}
+			if (temp.equals("아니오"))
+			{
+				name = "";
+				info.clear();
+				continue;
+			}
+			else if(temp.equals("예"))
+				break;
+		}while(true);
 		Gallery gallery = new Gallery(name, info);
 		appendGalleryList(gallery);
 		return gallery;
@@ -100,25 +118,25 @@ public class GalleryHelper {
 		int num;
 		String temp;
 		Scanner input = new Scanner(System.in);
-		ArrayList<String> info = gallery.getinfo();
 		DBManager db = new DBManager();
 		while(true)
 		{
 		System.out.println("전시관 관리 중 원하는 작업을 선택해주세요.");
-		System.out.println("==============================================");
+		System.out.println("===============================================");
 		System.out.println("1. 전시관 수정 | 2. 전시관 삭제 | 3. 전시물 관리 | 4. 취소");
-		System.out.println("==============================================");
+		System.out.println("===============================================");
 		System.out.print("입력>>");
 		num = Integer.parseInt(input.nextLine());
 			switch (num) {
 			case 1: // 전시관 수정 -> (전시관 데이터 삭제-> 전시관 데이터 추가)
+				ArrayList<String> info = gallery.getinfo();
 				System.out.println("=================================");
 				for (int i = 0; i < info.size(); i++) {
 					System.out.println("[" + (i + 1) + "] " + info.get(i));
 				}
 				System.out.println("=================================");
 				while (true) {
-					System.out.print("수정할 시작점을 선택하주세요.(취소 : 0) >>");
+					System.out.print("수정할 시작점을 선택해주세요.(취소 : 0) >>");
 					num = Integer.parseInt(input.nextLine());
 					if (num == 0)
 						return;
@@ -128,7 +146,7 @@ public class GalleryHelper {
 					}
 					break;
 				}
-				deleteGalleryList(gallery);// 삭제
+				deleteGalleryList(gallery);// DB 수정을 위한 DB의 data삭제
 				for (int i = info.size(); i >= num; i--)
 					info.remove(i-1);
 				while (true) { // info 입력 수정
@@ -150,6 +168,15 @@ public class GalleryHelper {
 				if(temp.equals(gallery.getname()))
 				{
 					deleteGalleryList(gallery);
+					ExhibitHelper eh = new ExhibitHelper();
+					ArrayList<Exhibit> exhibitList = eh.getLocalExhibitList(gallery.getname());
+					for(int i=0; i<exhibitList.size(); i++)// 전시관 안에 있던 전시물 정보도 삭제
+					{
+						Exhibit exhibit = exhibitList.get(i);
+						eh.deleteExhibitList(exhibit);
+						exhibit = null;	//삭제
+					}
+					gallery = null;	//삭제
 					System.out.println("["+temp+"]의 삭제가 완료되었습니다.");
 					System.out.println("엔터 입력시 메인화면으로 이동합니다.");
 					input.nextLine();
