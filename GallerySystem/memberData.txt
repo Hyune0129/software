@@ -1,5 +1,4 @@
 ID;Password;PhoneNumber;Email;OwnGallery;
-Admin;admin;000-0000-0000;xxx@xxxxx.com;admin
-Immanager;immanager;123-3456-7891;asdf@asdf.com; ;
-asdfqwer;asdfqwer;123-4567-8971;asdf@werq.com;asdfqwer
-galleryasdf;galleryasdf;000-0000-0000;asd@qwer.com; ;
+Admin;admin;000-0000-0000;xxx@xxxxx.com;admin;
+Immanager;immanager;123-3456-7891;asdf@asdf.com;게임 전시관;
+ImManager2;immanager;000-0000-0000;qwer@asdfw.com;키보드 전시관;

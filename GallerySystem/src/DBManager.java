@@ -2,15 +2,11 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class DBManager {
@@ -92,7 +88,7 @@ public class DBManager {
 
 	ArrayList<Member> getMemberInfoData() {
 		// ID;password;phonenumber;email;admin or owngallery;
-		String temp, line;
+		String line;
 		String[] info = new String[5];
 		StringTokenizer st;
 		ArrayList<Member> memberList = new ArrayList<Member>();
@@ -128,7 +124,7 @@ public class DBManager {
 	
 	ArrayList<GalleryManager> getRequsetData()
 	{//ID;password;phonenumber;email;
-		String temp,line;
+		String line;
 		String[] info = new String[4];
 		StringTokenizer st;
 		ArrayList<GalleryManager> requestList = new ArrayList<GalleryManager>();

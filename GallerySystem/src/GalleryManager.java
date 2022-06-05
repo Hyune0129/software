@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GalleryManager extends Member{
@@ -69,7 +68,6 @@ public class GalleryManager extends Member{
 		ExhibitHelper eh = new ExhibitHelper();
 		DBManager db = new DBManager();
 		Scanner input = new Scanner(System.in);
-		String temp;
 		switch(select)
 		{
 		case 2:	// 전시관 관리

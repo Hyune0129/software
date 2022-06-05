@@ -1,3 +1,4 @@
 name;info1|info2|info3|...|;
 PhotoGallery;info1|info2|info3|;
-asdfqwer;asdf|qwer|와!|샌즈!|겁나어렵습니다|;
+게임 전시관;게임을 전시하는 전시관입니다|놀러오세요!|;
+키보드 전시관;각종 키보드를 전시하는 전시관입니다|놀러오세요!|;

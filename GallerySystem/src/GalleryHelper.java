@@ -118,7 +118,6 @@ public class GalleryHelper {
 		int num;
 		String temp;
 		Scanner input = new Scanner(System.in);
-		DBManager db = new DBManager();
 		while(true)
 		{
 		System.out.println("전시관 관리 중 원하는 작업을 선택해주세요.");
